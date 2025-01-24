@@ -11,6 +11,12 @@ function App() {
     fetchTasks().then(setTasks);
   }, []);
 
+  const handleUpdateTask = async (updatedTask) => {
+    const task = await updateTask(updatedTask);
+    setTasks(tasks.map((t) => (t.id === task.id ? task : t)));
+    setEditingTask(null);
+  };
+
   const handleCreateTask = async (task) => {
     const newTask = await createTask(task);
     setTasks([...tasks, newTask]);
@@ -26,7 +32,11 @@ function App() {
   return (
     <div className=" ">
       <h1 className='text-center text-warning bg-success'>Todo List</h1>
-     
+      <Edit
+        onSubmit={editingTask ? handleUpdateTask : handleCreateTask}
+        initialData={editingTask}
+        onCancel={() => setEditingTask(null)}
+      />
       <Table
         tasks={tasks}
         onEdit={(task) => setEditingTask(task)}

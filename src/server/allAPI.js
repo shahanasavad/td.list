@@ -5,7 +5,13 @@ export const fetchTasks = async () => {
   return response.json();
 };
 
-
+export const updateTask = async (task) => {
+    const response = await fetch(`${API_URL}/${task.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(task),
+    });
+}
 export const deleteTask = async (id) => {
   await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
 };
